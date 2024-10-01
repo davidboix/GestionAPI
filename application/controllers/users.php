@@ -23,6 +23,7 @@ class Users extends CI_Controller
         $user = strtoupper($this->input->post("user"));
         $password = $this->input->post("password");
         $arr = $this->Consulta->isUserExists($user);
+
         if (!$arr) {
             $msg = "Usuari No Existent";
             $this->loginErronio($msg);
@@ -33,21 +34,35 @@ class Users extends CI_Controller
     public function registro()
     {
         echo "<h1>WORKING ON IT</h1>";
+        $this->load->view("header");
+        $this->load->view("registro");
+        $this->load->view("footer");
+    }
+
+    public function setRegistro () {
+        $this->load->model("Consulta");
+        $user = strtoupper($this->input->post("user"));
+        $password = $this->input->post("password");
+        $this->Consulta->setUsuario($user,$password);
     }
 
     public function getDades()
     {
         $this->load->model("Consulta");
         $arr = $this->Consulta->getUsers();
-        foreach ($arr as $row) {
-            echo $row . "<br>";
+        if (!isset($arr)) {
+            foreach ($arr as $row) {
+                echo $row . "<br>";
+            }
         }
+        echo "no hi han dades";
+
         //D'aquesta manera estem accedint al array de objectes i printem tot el objecte
         // foreach ($data["nomActor"] as $row) {
         //     echo $row->Nom_Actor . "<br>";
         // }
     }
-
+    
     private function loginErronio($data)
     {
         $this->load->view("header");
