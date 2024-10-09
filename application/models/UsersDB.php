@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Consulta extends CI_Model
+class UsersDB extends CI_Model
 {
     public function __construct()
     {
@@ -38,19 +38,19 @@ class Consulta extends CI_Model
         return FALSE;
     }
 
-    public function isUserExists($nom)
+    public function isUserExists($nom,$password)
     {
-        $this->db->close();
-        $this->load->database("users");
+        $this->load->database("gestionapi");
         $this->db->select("*");
-        $this->db->from("actors");
-        $this->db->where("Nom_Actor", $nom);
+        $this->db->from("users");
+        $this->db->where("Usuario", $nom);
+        $this->db->where("Contraseña",$password);
         $query = $this->db->get();
         $result = $query->result();
         $data = [];
         if ($query->num_rows() > 0) {
             foreach ($result as $row) {
-                array_push($data, $row->Nom_Actor);
+                array_push($data, $row->Usuario);
             }
             $this->db->close();
             return $data;
@@ -66,7 +66,4 @@ class Consulta extends CI_Model
         $insert = $this->db->insert("users");
         return $insert;
     }
-
-
-
 }

@@ -19,16 +19,20 @@ class Users extends CI_Controller
 
     public function login()
     {
-        $this->load->model("Consulta");
+        $this->load->model("UsersDB");
         $user = strtoupper($this->input->post("user"));
         $password = $this->input->post("password");
-        $arr = $this->Consulta->isUserExists($user);
-
+        $arr = $this->UsersDB->isUserExists($user,$password);
+        print_r($arr);
         if (!$arr) {
             $msg = "Usuari No Existent";
+            echo $msg;
             $this->loginErronio($msg);
+            //Deberiamos cargar una ventana emergente que avisase que el usuario no existe y que se redirigiese a la pagina de registro 
+            return;
         }
 
+        echo "hem fet login";
     }
 
     public function registro()
@@ -40,16 +44,16 @@ class Users extends CI_Controller
     }
 
     public function setRegistro () {
-        $this->load->model("Consulta");
+        $this->load->model("UsersDB");
         $user = strtoupper($this->input->post("user"));
         $password = $this->input->post("password");
-        $this->Consulta->setUsuario($user,$password);
+        $this->UsersDB->setUsuario($user,$password);
     }
 
     public function getDades()
     {
-        $this->load->model("Consulta");
-        $arr = $this->Consulta->getUsers();
+        $this->load->model("UsersDB");
+        $arr = $this->UsersDB->getUsers();
         if (!isset($arr)) {
             foreach ($arr as $row) {
                 echo $row . "<br>";

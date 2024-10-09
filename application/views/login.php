@@ -1,5 +1,5 @@
 <main>
-    <?php if (isset($data)) {echo "esta inicialitzat";} ?>
+    <?php if (isset($data)) {echo "esta inicialitzat";return;} ?>
     <!-- form_open el utilitzarem si hem de fer un formulari que utilitzi el metode POST. -->
     <div id="contenedorForm">
         <div>
